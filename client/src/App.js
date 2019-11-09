@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
+import RepContract from "./contracts/RepContract.json";
 import getWeb3 from "./utils/getWeb3";
 
 import "./App.css";
@@ -23,9 +24,15 @@ class App extends Component {
         deployedNetwork && deployedNetwork.address,
       );
 
+      const repContract = new web3.eth.Contract(
+        RepContract.abi,
+        deployedNetwork && deployedNetwork.address,
+      );
+
+
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance }, this.runExample);
+      this.setState({ web3, accounts, contract: instance });//, this.runExample);
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
