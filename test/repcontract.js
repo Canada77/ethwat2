@@ -5,12 +5,12 @@ contract("SimpleStorage", accounts => {
     const repContractInstance = await RepContract.deployed();
 
     // Set value of 89
-    await repContractInstance.setRep(accounts[0], 0, 89, { from: accounts[0] });
+    await repContractInstance.setRep(accounts[0], 0, 90, { from: accounts[0] });
 
     // Get stored value
     const storedRep = await repContractInstance.getRepValue(0,accounts[0]);
 
-    assert.equal(storedRep, 89, "The value 89 was not stored.");
+    assert.equal(storedRep, 90, "The value 90 was not stored.");
   });
 
 });
