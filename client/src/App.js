@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import RepContract from "./contracts/RepContract.json";
 import getWeb3 from "./utils/getWeb3";
-import {Input, Button} from 'antd';
+import {Input, InputNumber, Button} from 'antd';
 
 import "./App.css";
 
@@ -60,7 +60,7 @@ class App extends Component {
   //   this.setState({ storageValue: response });
   // };
   buttonClicked() {
-    console.log(this.state.addressOfUserToRate);
+    console.log(this.state.addressOfUserToRate + "will be rated " + this.state.rating);
   }
 
   render() {
@@ -68,22 +68,20 @@ class App extends Component {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
-      <div className="App" >
-     
-          <img src="./assets/space-img.jpg" alt="" />
-        
+      <div className="App" >     
+        <img src="./assets/space-img.jpg" alt="" />        
         <h1 className="App-font" style={{color: "white", fontSize: "50pt"}}>UnRep</h1>
-        <Input placeholder="Address of user to rate" type="text" onChange={event => {this.setState({addressOfUserToRate: event.target.value})}} />
+        <Input style={{width: "50%"}} placeholder="Address of user to rate" type="text" onChange={event => {this.setState({addressOfUserToRate: event.target.value})}} />
         <br />
+        <span style={{color: "white"}}>Category:</span>
         <select>
           <option value="driving">Driving</option> 
         </select>
         <br />
-        <input placeholder="Rep Score" type="text" />
+        <span style={{color: "white"}}>Reputation score out of 100:</span>
+        <InputNumber min={1} max={100} style={{width: "50%"}}  onChange={event => {this.setState({rating: event.target.value})}} />
         <br />
-        <Button onClick={this.buttonClicked}>Submit Rep</Button>
-      
-        {/* <div>The stored value is: {this.state.storageValue}</div> */}
+        <Button onClick={this.buttonClicked}>Submit Rep</Button>      
       </div>
     );
   }
