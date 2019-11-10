@@ -61,8 +61,16 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <h1>Reputation System App</h1>
+        <h1>UnRep</h1>
+        <input placeholder="Address of user to rate" type="text" />
+        <br />
+        <select>
+          <option value="driving">Driving</option> 
+        </select>
+        <br />
         <input placeholder="Rep Score" type="text" />
+        <br />
+        <button>Submit Rep</button>
       
         {/* <div>The stored value is: {this.state.storageValue}</div> */}
       </div>
