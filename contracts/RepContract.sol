@@ -16,7 +16,7 @@ contract RepContract {
     }
   }
 
-  function getRepValue(uint repIndex, address user) public view returns (uint) {
-    return repProfile[user].repValues[repIndex];
+  function getRepValue(uint categoryIndex, address user) public view returns (uint) {
+    return repProfile[user].repValues[categoryIndex];
   }
 }
