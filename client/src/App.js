@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import RepContract from "./contracts/RepContract.json";
 import getWeb3 from "./utils/getWeb3";
+import {Input, Button} from 'antd';
 
 import "./App.css";
 
@@ -9,7 +10,7 @@ class App extends Component {
   state = { storageValue: 0, web3: null, accounts: null, contract: null };
   constructor(props){
     super(props);
-  this.buttonClicked = this.buttonClicked.bind(this);
+    this.buttonClicked = this.buttonClicked.bind(this);
   }
 
   componentDidMount = async () => {
@@ -59,7 +60,7 @@ class App extends Component {
   //   this.setState({ storageValue: response });
   // };
   buttonClicked() {
-    console.log("click");
+    console.log(this.state.addressOfUserToRate);
   }
 
   render() {
@@ -69,10 +70,10 @@ class App extends Component {
     return (
       <div className="App" >
      
-          <img src="./assets/space-img.jpg" class="stretch" alt="" />
+          <img src="./assets/space-img.jpg" alt="" />
         
         <h1 className="App-font" style={{color: "white", fontSize: "50pt"}}>UnRep</h1>
-        <input placeholder="Address of user to rate" type="text" />
+        <Input placeholder="Address of user to rate" type="text" onChange={event => {this.setState({addressOfUserToRate: event.target.value})}} />
         <br />
         <select>
           <option value="driving">Driving</option> 
@@ -80,7 +81,7 @@ class App extends Component {
         <br />
         <input placeholder="Rep Score" type="text" />
         <br />
-        <button onClick={this.buttonClicked}>Submit Rep</button>
+        <Button onClick={this.buttonClicked}>Submit Rep</Button>
       
         {/* <div>The stored value is: {this.state.storageValue}</div> */}
       </div>
