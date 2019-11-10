@@ -79,7 +79,7 @@ class App extends Component {
         </select>
         <br />
         <span style={{color: "white"}}>Reputation score out of 100:</span>
-        <InputNumber min={1} max={100} style={{width: "50%"}}  onChange={event => {this.setState({rating: event.target.value})}} />
+        <InputNumber min={1} max={100} style={{width: "50%"}}  onChange={value => {this.setState({rating: value})}} />
         <br />
         <Button onClick={this.buttonClicked}>Submit Rep</Button>      
       </div>
