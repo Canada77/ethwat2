@@ -60,8 +60,11 @@ class App extends Component {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
-      <div className="App">
-        <h1>UnRep</h1>
+      <div className="App" >
+     
+          <img src="./assets/space-img.jpg" class="stretch" alt="" />
+        
+        <h1 className="App-font" style={{color: "white", fontSize: "50pt"}}>UnRep</h1>
         <input placeholder="Address of user to rate" type="text" />
         <br />
         <select>
