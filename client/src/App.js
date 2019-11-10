@@ -7,9 +7,9 @@ import {Input, InputNumber, Button} from 'antd';
 import "./App.css";
 
 class App extends Component {
-  state = { storageValue: 0, web3: null, accounts: null, contract: null };
+  state = { storageValue: 0, web3: null, accounts: null, contract: null, categoryIndex: 0, repOnBlockchain: 0, rating: 0 };
   constructor(props){
-    super(props);
+    super(props);    
     this.buttonClicked = this.buttonClicked.bind(this);
   }
 
@@ -35,6 +35,7 @@ class App extends Component {
         deployedNetwork && deployedNetwork.address,
       );
 
+     
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
       this.setState({ web3, accounts, repContract });//, this.runExample);
@@ -59,8 +60,14 @@ class App extends Component {
   //   // Update state with the result.
   //   this.setState({ storageValue: response });
   // };
-  buttonClicked() {
+  buttonClicked = async () => {
+    const { accounts, repContract } = this.state;
     console.log(this.state.addressOfUserToRate + "will be rated " + this.state.rating);
+    await repContract.methods.setRep(this.state.addressOfUserToRate, this.state.categoryIndex, this.state.rating);
+    const response = await repContract.methods.getRepValue(this.state.categoryIndex, this.state.addressOfUserToRate).call();
+
+    // Update state with the result.
+    this.setState({ repOnBlockchain: response });
   }
 
   render() {
@@ -71,6 +78,8 @@ class App extends Component {
       <div className="App" >     
         <img src="./assets/space-img.jpg" alt="" />        
         <h1 className="App-font" style={{color: "white", fontSize: "50pt"}}>UnRep</h1>
+        <h3 className="App-font" style={{color: "blue", fontSize: "30pt"}}>Current Rep on Blockchain</h3>
+    <h1 className="App-font" style={{color: "green", fontSize: "40pt"}}>{this.state.repOnBlockchain}</h1>
         <Input style={{width: "50%"}} placeholder="Address of user to rate" type="text" onChange={event => {this.setState({addressOfUserToRate: event.target.value})}} />
         <br />
         <span style={{color: "white"}}>Category:</span>
