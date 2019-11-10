@@ -11,6 +11,7 @@ class App extends Component {
   constructor(props){
     super(props);    
     this.buttonClicked = this.buttonClicked.bind(this);
+    this.catIndex = this.catIndex.bind(this);
   }
 
   componentDidMount = async () => {
@@ -25,10 +26,10 @@ class App extends Component {
       const networkId = await web3.eth.net.getId();
       const deployedNetwork = SimpleStorageContract.networks[networkId];
 
-      // const instance = new web3.eth.Contract(
-      //   SimpleStorageContract.abi,
-      //   deployedNetwork && deployedNetwork.address,
-      // );
+      const instance = new web3.eth.Contract(
+        SimpleStorageContract.abi,
+        deployedNetwork && deployedNetwork.address,
+      );
 
       const repContract = new web3.eth.Contract(
         RepContract.abi,
@@ -37,7 +38,7 @@ class App extends Component {
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, repContract });//, this.runExample);
+      this.setState({ web3, accounts, repContract, instance });//, this.runExample);
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -63,15 +64,26 @@ class App extends Component {
 
   catIndex(defaultValue) {
     console.log(`selected ${defaultValue}`);
+    this.setState({categoryIndex: defaultValue});
   }
 
 
   buttonClicked = async () => {
-    const { accounts, repContract } = this.state;
-
+    const { accounts, repContract, instance } = this.state;
+    //this.state.addressOfUserToRate, this.state.categoryIndex, 
     console.log(this.state.addressOfUserToRate + "will be rated " + this.state.rating);
-    await repContract.methods.setRep(this.state.addressOfUserToRate, this.state.categoryIndex, this.state.rating);
-    const response = await repContract.methods.getRepValue(this.state.categoryIndex, this.state.addressOfUserToRate).call();
+    // await repContract.methods.simpleRepSet(this.state.addressOfUserToRate, this.state.rating).send({from: accounts[0]});
+    // const response = await repContract.methods.getRepValue(this.state.categoryIndex, this.state.addressOfUserToRate).call();
+
+    // // Update state with the result.
+    // this.setState({ repOnBlockchain: response });
+
+     // Stores a given value, 5 by default.
+     console.log(accounts[0]);
+    await repContract.methods.set("0x668D27cb04F621727316fb0444D66b9cF5A3eF22").send({ from: accounts[0], gas: 40000});
+
+    // Get the value from the contract to prove it worked.
+    const response = await repContract.methods.get().call();
 
     // Update state with the result.
     this.setState({ repOnBlockchain: response });
@@ -90,10 +102,10 @@ class App extends Component {
         <Input style={{width: "50%"}} placeholder="Address of user to rate" type="text" onChange={event => {this.setState({addressOfUserToRate: event.target.value})}} />
         <br />
         <span style={{color: "white"}}>Category:</span>
-        <Select defaultValue="Programming">
-          <Select.Option value="Programming">Programming</Select.Option>
-          <Select.Option value="Credit">Credit</Select.Option>
-          <Select.Option value="Driving">Driving</Select.Option>
+        <Select defaultValue="Programming" onChange={this.catIndex}>
+          <Option value={0}>Programming</Option>
+          <Option value={1}>Credit</Option>
+          <Option value={2}>Driving</Option>
         </Select>
         <br />
         <span style={{color: "white"}}>Reputation score out of 100:</span>
