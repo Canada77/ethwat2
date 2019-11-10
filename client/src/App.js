@@ -7,6 +7,10 @@ import "./App.css";
 
 class App extends Component {
   state = { storageValue: 0, web3: null, accounts: null, contract: null };
+  constructor(props){
+    super(props);
+  this.buttonClicked = this.buttonClicked.bind(this);
+  }
 
   componentDidMount = async () => {
     try {
@@ -54,6 +58,9 @@ class App extends Component {
   //   // Update state with the result.
   //   this.setState({ storageValue: response });
   // };
+  buttonClicked() {
+    console.log("click");
+  }
 
   render() {
     if (!this.state.web3) {
@@ -73,7 +80,7 @@ class App extends Component {
         <br />
         <input placeholder="Rep Score" type="text" />
         <br />
-        <button>Submit Rep</button>
+        <button onClick={this.buttonClicked}>Submit Rep</button>
       
         {/* <div>The stored value is: {this.state.storageValue}</div> */}
       </div>
